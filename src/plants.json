@@ -1,260 +1,34 @@
-{
-  "q2_indicators": [
+[
     {
-      "id": "CMPSS",
-      "labels": ["Glockenblumen", "Bärtige Glockenblume", "Rundblättrige Glockenblume"],
-      "botanical_name": "Campanula sp.",
-      "description": "Blätter ungeteilt, wechselständig; Stängelblätter oft mit feinen weissen Drüsenpunkten; Blüte glockenförmig.",
-      "category": "herb",
-      "image": "https://www.intratuin.de/media/wysiwyg/Campanula_persicifolia_Coerulea_.jpg"
+        "id": "CMPSS",
+        "labels": "Glockenblumen",
+        "botanical_name": "Campanula sp.",
+        "description": "Blätter ungeteilt, wechselständig; Stängelblätter oft mit feinen weissen Drüsenpunkten; Blüte glockenförmig.",
+        "image": "https://www.intratuin.de/media/wysiwyg/Campanula_persicifolia_Coerulea_.jpg",
+        "is_q2": true
     },
     {
-      "id": "KNASS",
-      "labels": ["Witwenblumen & Skabiosen", "Taubenskabiose", "Feld-Witwenblume"],
-      "botanical_name": "Knautia sp., Scabiosa sp.",
-      "description": "Blätter gegenständig; Blütenköpfe von Hüllblättern umgeben.",
-      "category": "herb",
-      "image": ""
+        "id": "KNASS",
+        "labels": "Witwenblumen und Skabiosen",
+        "botanical_name": "Knautia sp., Scabiosa sp.",
+        "description": "Blätter gegenständig; Blütenköpfe von Hüllblättern umgeben.",
+        "image": "",
+        "is_q2": false
     },
     {
-      "id": "CENSS",
-      "labels": ["Flockenblumen", "Wiesenflockenblume", "Skabiosen-Flockenblume"],
-      "botanical_name": "Centaurea sp.",
-      "description": "Blätter wechselständig; Blütenköpfe distelartig, aber ohne Stacheln; Randblüten oft flockig zerschlitzt.",
-      "category": "herb",
-      "image": ""
+        "id": "CENSS",
+        "labels": "Flockenblumen",
+        "botanical_name": "Centaurea sp.",
+        "description": "Blätter wechselständig; Blütenköpfe distelartig, aber ohne Stacheln; Randblüten oft flockig zerschlitzt.",
+        "image": "",
+        "is_q2": true
     },
     {
-      "id": "GENSS",
-      "labels": ["Enziane", "Frühlings-Enzian", "Feld-Enzian", "Schwalbenwurz-Enzian"],
-      "botanical_name": "Gentiana sp. (ohne Gelber Enzian)",
-      "description": "Blätter meist steif; Saum der Krone 4- oder 5-zipfelig.",
-      "category": "herb",
-      "image": ""
-    },
-    {
-      "id": "PHYSS",
-      "labels": ["Teufelskrallen"],
-      "botanical_name": "Phyteuma sp.",
-      "description": "Blüten in kugel- oder ährenförmigen Köpfen, Kronzipfel krallenförmig zusammenhängend. Blätter am Rand mit feinen weissen Drüsen.",
-      "category": "herb",
-      "image": ""
-    },
-    {
-      "id": "ORIVU",
-      "labels": ["Dost & Wirbeldost", "Dost", "Wirbeldost"],
-      "botanical_name": "Origanum sp., Clinopodium sp.",
-      "description": "Stängel vierkantig; Blätter gegenständig, behaart, aromatisch duftend. Wirbeldost mit quirligen Blüten.",
-      "category": "herb",
-      "image": ""
-    },
-    {
-      "id": "PLGSS",
-      "labels": ["Kreuzblumen", "Gemeine Kreuzblume", "Buchsblättrige Kreuzblume"],
-      "botanical_name": "Polygala sp.",
-      "description": "Blüten schmetterlingsförmig; Kelchblätter flügelartig vergrössert (Farben oft blau, rosa oder weiss).",
-      "category": "herb",
-      "image": ""
-    },
-    {
-      "id": "ASTAL",
-      "labels": ["Alpen-Aster"],
-      "botanical_name": "Aster alpinus",
-      "description": "Blütenköpfe einzeln; Zungenblüten blau-violett, Röhrenblüten gelb. Blätter meist ganzrandig, behaart.",
-      "category": "herb",
-      "image": ""
-    },
-    {
-      "id": "LYCFC",
-      "labels": ["Kuckuckslichtnelke"],
-      "botanical_name": "Lychnis flos-cuculi",
-      "description": "Blüten lebhaft rosa, Kronblätter tief in 4 Zipfel zerschlitzt. Stängel oft rötlich. Feuchte Wiesen.",
-      "category": "herb",
-      "image": ""
-    },
-    {
-      "id": "EPISS",
-      "labels": ["Weidenröschen", "Alpen-Weidenröschen", "Mierenblättriges Weidenröschen"],
-      "botanical_name": "Epilobium sp.",
-      "description": "Blüten rosa bis violett, meist 4 Kronblätter. Oft an feuchten Standorten.",
-      "category": "herb",
-      "image": ""
-    },
-    {
-      "id": "SILSS",
-      "labels": ["Weisse Leimkräuter", "Gemeines Leimkraut", "Chlepfer", "Weisse Waldnelke"],
-      "botanical_name": "Silene sp.",
-      "description": "Blätter gegenständig; Blüten weiss. Kelch oft aufgeblasen oder behaart.",
-      "category": "herb",
-      "image": ""
-    },
-    {
-      "id": "SEDSS",
-      "labels": ["Mauerpfeffer", "Weisser Mauerpfeffer"],
-      "botanical_name": "Sedum sp.",
-      "description": "Blätter fleischig-walzenförmig (Sukkulenten); Blüten sternförmig.",
-      "category": "herb",
-      "image": ""
-    },
-    {
-      "id": "DRYOC",
-      "labels": ["Silberwurz"],
-      "botanical_name": "Dryas octopetala",
-      "description": "Zwergstrauch; Blätter eichenblattartig, unterseits weissfilzig; Blüten gross, weiss, meist 8 Kronblätter.",
-      "category": "shrub",
-      "image": ""
-    },
-    {
-      "id": "HELSS",
-      "labels": ["Sonnenröschen"],
-      "botanical_name": "Helianthemum sp.",
-      "description": "Kleine Sträucher mit gegenständigen Blättern; Blüten gelb, 5 Kronblätter, sehr hinfällig.",
-      "category": "shrub",
-      "image": "https://www.mein-schoener-garten.de/sites/mein-schoener-garten.de/files/sonnenroeschen-hybride-sterntaler-267047-dam-msg.JPG"
-    },
-    {
-      "id": "PTNSS",
-      "labels": ["Fingerkräuter", "Blutwurz"],
-      "botanical_name": "Potentilla sp.",
-      "description": "Blätter meist fingerförmig geteilt; Blüten gelb, 4-5 Kronblätter.",
-      "category": "herb",
-      "image": ""
-    },
-    {
-      "id": "TRFSS",
-      "labels": ["Gelbe Kleearten", "Hufeisenklee", "Hornklee", "Wundklee"],
-      "botanical_name": "Trifolium sp., Medicago sp., Lotus sp.",
-      "description": "Blätter dreizählig; Schmetterlingsblüten gelb, oft in Köpfchen.",
-      "category": "legume",
-      "image": ""
-    },
-    {
-      "id": "HIESS",
-      "labels": ["Gelbe Korbblütler (einköpfig)", "Langhaariges Habichtskraut"],
-      "botanical_name": "z.B. Hieracium sp. (ohne Löwenzahn!)",
-      "description": "Stängel unverzweigt mit nur einem Blütenkopf.",
-      "category": "herb",
-      "image": ""
-    },
-    {
-      "id": "CRESS",
-      "labels": ["Gelbe Korbblütler (mehrköpfig)", "Wiesen-Pippau"],
-      "botanical_name": "z.B. Crepis sp. (ohne Löwenzahn!)",
-      "description": "Stängel verzweigt mit mehreren Blütenköpfen.",
-      "category": "herb",
-      "image": ""
-    },
-    {
-      "id": "PRISS",
-      "labels": ["Gelbe Primeln", "Schlüsselblume"],
-      "botanical_name": "Primula sp.",
-      "description": "Blätter in grundständiger Rosette; Blüten gelb.",
-      "category": "herb",
-      "image": ""
-    },
-    {
-      "id": "ORCFF",
-      "labels": ["Orchideen"],
-      "botanical_name": "Orchidaceae",
-      "description": "Alle heimischen Arten; Blüten lippenförmig, oft gespornt, sehr vielgestaltig.",
-      "category": "herb",
-      "image": ""
-    },
-    {
-      "id": "CRXSS",
-      "labels": ["Seggen"],
-      "botanical_name": "Carex sp.",
-      "description": "Grasähnlich; Stängel meist dreikantig und markig (ohne Knoten); Blätter dreizeilig angeordnet.",
-      "category": "sedge",
-      "image": ""
-    },
-    {
-      "id": "ERISS",
-      "labels": ["Wollgräser"],
-      "botanical_name": "Eriophorum sp.",
-      "description": "Feuchte Standorte/Moore; nach der Blüte mit auffälligen, schneeweissen Wollschöpfen.",
-      "category": "sedge",
-      "image": ""
-    },
-    {
-      "id": "BIZME",
-      "labels": ["Zittergras"],
-      "botanical_name": "Briza media",
-      "description": "Ährchen herzförmig, seitlich abgeflacht, hängen an dünnen Stielen und zittern bei Wind.",
-      "category": "grass",
-      "image": ""
-    },
-    {
-      "id": "NADST",
-      "labels": ["Borstgras"],
-      "botanical_name": "Nardus stricta",
-      "description": "Borstliche, harte Blätter, dichte Horste bildend; Ährchen einseitswendig an der Ähre angeordnet.",
-      "category": "grass",
-      "image": ""
-    },
-    {
-      "id": "TOLSS",
-      "labels": ["Trollblume"],
-      "botanical_name": "Trollius europaeus",
-      "description": "Feuchte Wiesen; Blätter hahnenfussartig, dunkelgrün; Blüten kugelförmig geschlossen, gelb.",
-      "category": "herb",
-      "image": ""
+        "id": "GENSS",
+        "labels": "Enziane",
+        "botanical_name": "Gentiana sp. (ohne Gelber Enzian)",
+        "description": "Blätter meist steif; Saum der Krone 4- oder 5-zipfelig.",
+        "image": "",
+        "is_q2": true
     }
-  ],
-  "lean_indicators": [
-    { "id": "ARREL", "labels": ["Fromental"], "botanical_name": "Arrhenatherum elatius", "category": "grass", "is_official_q2": false, "image": "https://www.eagff.ch/files/_processed_/c/d/csm_Fromental_022-re_8f11a95560.jpg" },
-    { "id": "DACGL", "labels": ["Knaulgras"], "botanical_name": "Dactylis glomerata", "category": "grass", "is_official_q2": false, "image": "" },
-    { "id": "ANTAO", "labels": ["Geruchgras"], "botanical_name": "Anthoxanthum odoratum", "category": "grass", "is_official_q2": true, "image": "" },
-    { "id": "BROER", "labels": ["Aufrechte Trespe"], "botanical_name": "Bromus erectus", "category": "grass", "is_official_q2": true, "image": "" },
-    { "id": "FESRU", "labels": ["Rot-Schwingel"], "botanical_name": "Festuca rubra", "category": "grass", "is_official_q2": false, "image": "" },
-    { "id": "TRIFL", "labels": ["Goldhafer"], "botanical_name": "Trisetum flavescens", "category": "grass", "is_official_q2": false, "image": "" },
-    { "id": "HELPU", "labels": ["Flaumhafer"], "botanical_name": "Helictochloa pubescens / Avenula pubescens", "category": "grass", "is_official_q2": true, "image": "" },
-    { "id": "FESSS", "labels": ["Borstenblättrige, horstwüchsige Gräser"], "botanical_name": "Festuca sp., Nardus sp.", "category": "grass", "is_official_q2": true, "image": "" },
-    { "id": "LUZSS", "labels": ["Hainsimsen"], "botanical_name": "Luzula sp.", "category": "sedge", "is_official_q2": true, "image": "" },
-    { "id": "CRXSS", "labels": ["Seggen"], "botanical_name": "Carex sp.", "category": "sedge", "is_official_q2": true, "image": "" },
-    { "id": "ERISS", "labels": ["Wollgräser"], "botanical_name": "Eriophorum sp.", "category": "sedge", "is_official_q2": true, "image": "" },
-    { "id": "BIZME", "labels": ["Zittergras"], "botanical_name": "Briza media", "category": "grass", "is_official_q2": true, "image": "" },
-    { "id": "TRFPR", "labels": ["Rotklee"], "botanical_name": "Trifolium pratense", "category": "legume", "is_official_q2": false, "image": "" },
-    { "id": "VICSS", "labels": ["Wicke (blau/violett)"], "botanical_name": "Vicia sp. (z.B. V. cracca, V. sepium)", "category": "legume", "is_official_q2": false, "image": "" },
-    { "id": "LOTSS", "labels": ["Gelbblühende Kleeart"], "botanical_name": "Lotus sp., Medicago sp., Trifolium sp.", "category": "legume", "is_official_q2": true, "image": "" },
-    { "id": "LATHP", "labels": ["Wiesen-Platterbse"], "botanical_name": "Lathyrus pratensis", "category": "legume", "is_official_q2": true, "image": "" },
-    { "id": "PIMMA", "labels": ["Grosse Bibernelle"], "botanical_name": "Pimpinella major", "category": "herb", "is_official_q2": false, "image": "" },
-    { "id": "TPOPR", "labels": ["Wiesen-Bocksbart"], "botanical_name": "Tragopogon pratensis", "category": "herb", "is_official_q2": true, "image": "" },
-    { "id": "MYOSS", "labels": ["Vergissmeinnicht"], "botanical_name": "Myosotis sp.", "category": "herb", "is_official_q2": false, "image": "" },
-    { "id": "GALMO", "labels": ["Wiesen-Labkraut"], "botanical_name": "Galium mollugo", "category": "herb", "is_official_q2": false, "image": "" },
-    { "id": "SILDI", "labels": ["Rote Waldnelke"], "botanical_name": "Silene dioica", "category": "herb", "is_official_q2": false, "image": "" },
-    { "id": "LEUVU", "labels": ["Wiesen-Margerite"], "botanical_name": "Leucanthemum vulgare", "category": "herb", "is_official_q2": true, "image": "" },
-    { "id": "KNAAR", "labels": ["Feld-Witwenblume"], "botanical_name": "Knautia arvensis", "category": "herb", "is_official_q2": true, "image": "" },
-    { "id": "PLALA", "labels": ["Spitzwegerich"], "botanical_name": "Plantago lanceolata", "category": "herb", "is_official_q2": false, "image": "" },
-    { "id": "PRUVU", "labels": ["Gemeine Brunelle"], "botanical_name": "Prunella vulgaris", "category": "herb", "is_official_q2": false, "image": "" },
-    { "id": "CENJA", "labels": ["Wiesen-Flockenblume"], "botanical_name": "Centaurea jacea", "category": "herb", "is_official_q2": true, "image": "" },
-    { "id": "HIESS", "labels": ["Gelbblühende Korbblütler (einköpfig)"], "botanical_name": "Hieracium sp. (ohne Löwenzahn!)", "category": "herb", "is_official_q2": true, "image": "" },
-    { "id": "CRESS", "labels": ["Gelbblühende Korbblütler (mehrköpfig)"], "botanical_name": "Crepis sp. (ohne Löwenzahn!)", "category": "herb", "is_official_q2": true, "image": "" },
-    { "id": "CARCA", "labels": ["Kümmel"], "botanical_name": "Carum carvi", "category": "herb", "is_official_q2": false, "image": "" }
-  ],
-  "nutrient_rich_indicators": {
-    "limit_35_percent": [
-      { "id": "LOLPE", "labels": ["Englisches Raigras"], "botanical_name": "Lolium perenne", "image": "" },
-      { "id": "LOLMU", "labels": ["Italienisches Raigras"], "botanical_name": "Lolium multiflorum", "image": "" },
-      { "id": "POATR", "labels": ["Gemeines Rispengras"], "botanical_name": "Poa trivialis", "image": "" },
-      { "id": "TAROF", "labels": ["Wiesen-Löwenzahn"], "botanical_name": "Taraxacum officinale", "image": "" },
-      { "id": "TRFRE", "labels": ["Weissklee"], "botanical_name": "Trifolium repens", "image": "" }
-    ],
-    "limit_40_percent": [
-      { "id": "HERSP", "labels": ["Bärenklau"], "botanical_name": "Heracleum sphondylium", "image": "" },
-      { "id": "AEGPO", "labels": ["Geissfuss", "Baumtropfen"], "botanical_name": "Aegopodium podagraria", "image": "" },
-      { "id": "CHAHI", "labels": ["Bergkerbel", "Kälberkropf"], "botanical_name": "Chaerophyllum hirsutum", "image": "" },
-      { "id": "RUMAR", "labels": ["Berg-Sauerampfer"], "botanical_name": "Rumex alpestris", "image": "" },
-      { "id": "RANAC", "labels": ["Eisenhutblättriger Hahnenfuss"], "botanical_name": "Ranunculus aconitifolius", "image": "" },
-      { "id": "RANRE", "labels": ["Kriechender Hahnenfuss"], "botanical_name": "Ranunculus repens", "image": "" },
-      { "id": "RANACR", "labels": ["Scharfer Hahnenfuss"], "botanical_name": "Ranunculus acris", "image": "" },
-      { "id": "POLBI", "labels": ["Schlangen-Knöterich"], "botanical_name": "Bistorta officinalis / Polygonum bistorta", "image": "" },
-      { "id": "GERSY", "labels": ["Wald-Storchenschnabel"], "botanical_name": "Geranium sylvaticum", "image": "" },
-      { "id": "ANTSY", "labels": ["Wiesenkerbel"], "botanical_name": "Anthriscus sylvestris", "image": "" }
-    ]
-  },
-  "problematic_plants": [
-    { "id": "RUMOB", "labels": ["Blacken"], "botanical_name": "Rumex obtusifolius", "image": "" },
-    { "id": "CIRAR", "labels": ["Ackerkratzdisteln"], "botanical_name": "Cirsium arvense", "image": "" }
-  ]
-}
+]
