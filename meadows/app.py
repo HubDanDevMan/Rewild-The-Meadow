@@ -22,8 +22,11 @@ def index():
         antwort = request.form.get('Graeser_gt_35')
 
 
-        return f""" Daten empfangen. Ausgewählte Arten: {', '.join(selected)} \n unerwünschte gräser > 35%: {antwort}  
-
+        return f""" 
+        
+        Daten empfangen. Ausgewählte Arten: {', '.join(selected)}   -------------
+        unerwünschte gräser > 35%: {antwort}  ----------
+        
 
         """
     
