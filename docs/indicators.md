@@ -166,3 +166,38 @@ Borstliche, harte Blätter, dichte Horste bildend; Ährchen einseitswendig an de
 
 Feuchte Wiesen und Weiden; Blätter hahnenfussartig, dunkelgrün, etwas gummiartig; Blüten kugelförmig geschlossen, gelb.
 Frühling-Sommer / 10-50 cm
+
+# Zeigerfplanzen für Magerkeit
+
+Die folgenden Pflanzen zeigen Magerkeit in der Wiese, sind aber selbst nicht *unbedingt* geltende offizielle Zeigerpflanzen. Sie zeigen nur, dass die Wiese Potenzial aufweist.
+
+Zeigerarten für Magerkeit	QII-Zeiger
+Fromental	
+Knaulgras	
+Geruchgras 	x
+Aufrechte Trespe 	x
+Rot-Schwingel 	
+Goldhafer 	
+Flaumhafer	x
+Borstenblättrige, horstwüchsige Gräser	x
+Hainsimsen	x
+Seggen	x
+Wollgräser	x
+Zittergras	x
+Rotklee	
+Wicke blau/violett	
+Gelbblühende Kleeart	x
+Wiesen-Platterbse	x
+Grosse Bibernelle	
+Wiesen-Bocksbart	x
+Vergissmeinnicht	
+Wiesen-Labkraut	
+Rote Waldnelke	
+Wiesen-Margerite	x
+Feld-Witwenblume	x
+Spitzwegerich	
+Gemeine Brunelle	
+Wiesen-Flockenblume	x
+Gelbblühende Korbblütler, einköpfig	x
+Gelbblühende Korbblütler, mehrköpfig	x
+Kümmel	
