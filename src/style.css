@@ -271,7 +271,358 @@ main { max-width: 900px; margin: 0 auto; padding-bottom: 60px; }
     border-top: 6px solid var(--primary);
     box-shadow: var(--shadow);
 }
+:root {
+    /* Basisfarben */
+    --primary: #2e5c31;    
+    --primary-light: #4a8f4d;
+    --accent: #f9a825;     
+    
+    /* UI Farben */
+    --bg-color: #f8f9fa;
+    --card-bg: #ffffff;
+    --text-main: #2c3e50;
+    --text-muted: #6c757d;
+    --border-color: #dee2e6;
+    
+    /* Gauge Sektor Farben (explizit für Visualisierung) */
+    --g-red: #d32f2f;
+    --g-orange: #f57c00;
+    --g-yellow: #fbc02d;
+    --g-lightgreen: #7cb342;
+    --g-darkgreen: #388e3c;
 
+    /* GPT AI Brand Color */
+    --ai-color: #10a37f;
+    --ai-color-hover: #0d8a6a;
+
+    --radius: 8px;
+    --shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    margin: 0;
+    padding: 20px;
+    line-height: 1.5;
+}
+
+header {
+    max-width: 900px;
+    margin: 0 auto 40px auto;
+    text-align: center;
+}
+
+h1 { margin-bottom: 0.2em; color: var(--primary); }
+.subtitle { color: var(--text-muted); font-size: 1.1rem; margin-top: 0; }
+
+main { max-width: 900px; margin: 0 auto; padding-bottom: 60px; }
+
+/* --- Utility Classes --- */
+.hidden { display: none !important; }
+
+.active-stage {
+    display: block;
+    animation: slideUp 0.4s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Plant Grid & Cards --- */
+.plant-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    margin: 24px 0;
+}
+
+.plant-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.plant-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.plant-card.selected {
+    border-color: var(--primary);
+    background-color: #f1f8e9;
+    box-shadow: 0 0 0 2px var(--primary);
+}
+
+/* Selektions-Haken */
+.plant-card.selected::after {
+    content: "✓";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--primary);
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    z-index: 2;
+}
+
+/* Bild-Wrapper für Konsistenz */
+.plant-image-wrapper {
+    height: 150px;
+    width: 100%;
+    background-color: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.plant-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.plant-card:hover img { transform: scale(1.05); }
+
+.placeholder-icon {
+    font-size: 3rem;
+    color: #bdbdbd;
+}
+
+.plant-content { padding: 12px; }
+.plant-name { font-weight: 600; display: block; margin-bottom: 4px; }
+.plant-bot { font-style: italic; color: var(--text-muted); font-size: 0.9rem; }
+
+/* --- Forms & Checklists --- */
+.assessment-card {
+    background: var(--card-bg);
+    padding: 24px;
+    border-radius: var(--radius);
+    border: 1px solid var(--border-color);
+    margin-bottom: 24px;
+}
+
+.checklist { display: flex; flex-direction: column; gap: 12px; }
+
+.checkbox-wrapper {
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.checkbox-wrapper:hover { background-color: #f1f1f1; }
+
+.checkbox-wrapper input { display: none; }
+
+.checkmark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--text-muted);
+    border-radius: 4px;
+    margin-right: 12px;
+    margin-top: 2px;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.checkbox-wrapper input:checked ~ .checkmark {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+
+.checkbox-wrapper input:checked ~ .checkmark::after {
+    content: "";
+    position: absolute;
+    left: 6px; top: 2px;
+    width: 5px; height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.label-text strong { display: block; color: var(--text-main); }
+.desc { font-size: 0.9rem; color: var(--text-muted); }
+
+/* --- Buttons & Badges --- */
+.actions { margin-top: 20px; }
+
+.primary-btn {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    font-size: 1rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.2s;
+}
+
+.primary-btn:hover { background-color: var(--primary-light); }
+
+.secondary-btn {
+    background-color: transparent;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    padding: 12px 24px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    width: 100%;
+    margin-top: 15px; /* Abstand zum GPT Button */
+}
+
+.secondary-btn:hover { background-color: #e8f5e9; }
+
+/* GPT Button Specifics */
+.gpt-btn {
+    background-color: var(--ai-color);
+    color: white;
+    border: none;
+    padding: 16px 28px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: var(--radius);
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 4px 10px rgba(16, 163, 127, 0.3);
+}
+
+.gpt-btn:hover {
+    background-color: var(--ai-color-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(16, 163, 127, 0.4);
+}
+
+.step-badge {
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: var(--primary);
+    margin-bottom: 8px;
+    display: block;
+}
+
+.alert-box {
+    padding: 12px 16px;
+    border-radius: var(--radius);
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+}
+.alert-box.info { background-color: #e3f2fd; color: #0d47a1; border-left: 4px solid #0d47a1; }
+.alert-box.warning { background-color: #fff3e0; color: #e65100; border-left: 4px solid #e65100; }
+
+.result-card {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: var(--radius);
+    border-top: 6px solid var(--primary);
+    box-shadow: var(--shadow);
+}
+
+/* --- Gauge / Tachometer Visualisierung --- */
+
+.gauge-container {
+    position: relative;
+    width: 300px;
+    height: 150px;
+    margin: 0 auto 30px auto;
+    overflow: hidden; /* Versteckt die untere Hälfte des Kreises */
+}
+
+/* * Der Gauge-Hintergrund (Bogen)
+ * Wir nutzen einen conic-gradient, der den vollen Kreis beschreibt,
+ * aber durch das overflow: hidden des Containers wird nur die obere Hälfte angezeigt.
+ * * Startpunkt: 270deg (9 Uhr Position = Links)
+ * Die Sektoren werden im Uhrzeigersinn definiert.
+ */
+.gauge-body {
+    width: 300px;
+    height: 300px; /* Voller Kreis, damit Gradient korrekt zentriert ist */
+    border-radius: 50%;
+    background: conic-gradient(
+        from 270deg,
+        var(--g-red) 0deg 36deg,        /* Sektor 1: Kein Potenzial */
+        var(--g-orange) 36deg 72deg,    /* Sektor 2: Ansaat */
+        var(--g-yellow) 72deg 108deg,   /* Sektor 3: Management */
+        var(--g-lightgreen) 108deg 144deg, /* Sektor 4: Q2 knapp */
+        var(--g-darkgreen) 144deg 180deg,  /* Sektor 5: Q2 gut */
+        transparent 180deg              /* Rest des Kreises transparent */
+    );
+    /* Umrechnung in Halbkreis-Optik */
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Maske für den inneren Bogen ("Doughnut"-Effekt) */
+.gauge-body::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px; /* Dicke des Bogens steuern */
+    height: 200px;
+    background-color: var(--card-bg);
+    border-radius: 50%;
+}
+
+.gauge-needle {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 6px;
+    height: 130px; /* Länge der Nadel */
+    background-color: #2c3e50;
+    border-radius: 4px;
+    
+    /* Drehpunkt unten in der Mitte */
+    transform-origin: bottom center; 
+    
+    /* Initialzustand: -90deg (Linksanschlag) */
+    transform: translateX(-50%) rotate(-90deg);
+    
+    transition: transform 1.2s cubic-bezier(0.35, 0, 0.25, 1);
+    z-index: 10;
+}
+
+.gauge-hub {
+    position: absolute;
+    bottom: -12px; /* Halb verdeckt */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 24px;
+    background-color: #2c3e50;
+    border-radius: 50%;
+    z-index: 11;
+}
 /* --- Gauge / Tachometer Visualisierung --- */
 
 .gauge-container {
