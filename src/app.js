@@ -10,7 +10,8 @@ let state = {
     selectedQ2: new Set(),
     selectedPot: new Set(),
     potScore: 0,
-    resultType: '' // Speichert das finale Ergebnis für den Export
+    resultType: '',
+    history: [] // Stack für die Navigation
 };
 
 document.addEventListener('DOMContentLoaded', init);
@@ -34,7 +35,8 @@ async function init() {
         // Initialisierung erfolgreich
         loadingEl.style.display = 'none';
         renderQ2Plants();
-        switchStage('stage-q2');
+        // Initialer Startpunkt, kein History-Eintrag nötig
+        switchStage('stage-q2', false); 
         setupEventListeners();
 
     } catch (error) {
@@ -49,6 +51,8 @@ async function init() {
 }
 
 function setupEventListeners() {
+    /* --- Forward Navigation --- */
+    
     // Stage 1: Q2
     document.getElementById('btn-eval-q2').addEventListener('click', evaluateQ2);
     
@@ -63,13 +67,32 @@ function setupEventListeners() {
     // Stage 4: Ansaat
     document.getElementById('btn-eval-seeding').addEventListener('click', evaluateSeeding);
 
-    // Resultat: GPT
+    /* --- Backward Navigation --- */
+    
+    // Generischer Handler für alle Zurück-Buttons
+    document.querySelectorAll('.back-btn').forEach(btn => {
+        btn.addEventListener('click', goBack);
+    });
+
+    /* --- External --- */
     document.getElementById('btn-open-gpt').addEventListener('click', openGptAssistant);
 }
 
 /* --- Navigation & UI --- */
 
-function switchStage(stageId) {
+/**
+ * Wechselt die sichtbare Section.
+ * @param {string} stageId - ID der Ziel-Section
+ * @param {boolean} saveHistory - Ob der aktuelle Zustand in den Verlauf soll (Standard: true)
+ */
+function switchStage(stageId, saveHistory = true) {
+    const activeEl = document.querySelector('.active-stage');
+    
+    // Falls wir navigieren, speichern wir, woher wir kommen
+    if (saveHistory && activeEl && activeEl.id !== stageId) {
+        state.history.push(activeEl.id);
+    }
+
     // Alle Sections verbergen
     document.querySelectorAll('main > section').forEach(el => {
         el.classList.add('hidden');
@@ -85,6 +108,19 @@ function switchStage(stageId) {
     }
 }
 
+/**
+ * Navigiert einen Schritt zurück im Verlauf.
+ */
+function goBack() {
+    if (state.history.length === 0) return;
+    
+    // Letzten Eintrag holen
+    const previousStageId = state.history.pop();
+    
+    // Navigation ohne erneuten History-Eintrag ausführen
+    switchStage(previousStageId, false);
+}
+
 function createPlantCard(plant, selectionSetKey) {
     const el = document.createElement('div');
     el.className = 'plant-card';
@@ -94,6 +130,11 @@ function createPlantCard(plant, selectionSetKey) {
     const imageHtml = hasImage 
         ? `<img src="${plant.image}" loading="lazy" alt="${plant.name}" onerror="this.parentElement.innerHTML='<span class=\\'placeholder-icon\\'>✿</span>'">`
         : `<span class="placeholder-icon">✿</span>`;
+
+    // Prüfung, ob bereits selektiert (beim Zurücknavigieren wichtig)
+    if (state[selectionSetKey].has(plant.id)) {
+        el.classList.add('selected');
+    }
 
     el.innerHTML = `
         <div class="plant-image-wrapper">${imageHtml}</div>
@@ -152,7 +193,7 @@ function evaluateQ2() {
 
 // SCHRITT 3
 function calculateManagementPotential() {
-    // Punktesystem basierend auf Agridea-Merkblatt + User Journey
+    // Punktesystem basierend auf Agridea-Merkblatt
     
     // 1. Punkte durch Pflanzen (aus Schritt 2)
     const plantScore = state.selectedPot.size; 
@@ -227,7 +268,7 @@ function showResult(type, score = 0) {
     titleEl.innerText = measureData ? measureData.name : "Unbekanntes Ergebnis";
     titleEl.style.color = config.color;
 
-    // Text formatieren (Markdown-ähnliche Listen zu HTML)
+    // Text formatieren
     let descriptionHtml = '';
     if (measureData) {
         descriptionHtml = formatDescription(measureData.description);
@@ -254,7 +295,7 @@ function showResult(type, score = 0) {
         </div>
     `;
 
-    // Trigger für die Animation (kurze Verzögerung nötig für DOM-Reflow)
+    // Trigger für die Animation
     setTimeout(() => {
         const needle = document.getElementById('gauge-needle-el');
         if (needle) {
@@ -265,10 +306,6 @@ function showResult(type, score = 0) {
 
 /**
  * Wandelt den Text aus dem JSON in HTML um.
- * Erwartet: 
- * - Zeilenumbrüche für Absätze
- * - Zeilen, die mit "- " beginnen für Listenpunkte
- * - URLs (http...) werden verlinkt
  */
 function formatDescription(rawText) {
     if (!rawText) return '';
@@ -280,34 +317,29 @@ function formatDescription(rawText) {
     lines.forEach(line => {
         let trimmed = line.trim();
         
-        // Einfache URL-Erkennung und Umwandlung in Link
+        // URL-Erkennung
         trimmed = trimmed.replace(
             /(https?:\/\/[^\s]+)/g, 
             '<a href="$1" target="_blank" rel="noopener noreferrer">Link öffnen</a>'
         );
 
         if (trimmed.startsWith('-')) {
-            // Listen-Start oder Fortsetzung
             if (!inList) {
                 html += '<ul>';
                 inList = true;
             }
-            // Entferne das "-" am Anfang
             html += `<li>${trimmed.substring(1).trim()}</li>`;
         } else {
-            // Falls wir in einer Liste waren, diese beenden
             if (inList) {
                 html += '</ul>';
                 inList = false;
             }
-            // Leere Zeilen ignorieren oder als Abstandhalter nutzen
             if (trimmed.length > 0) {
                 html += `<p>${trimmed}</p>`;
             }
         }
     });
 
-    // Falls am Ende noch eine Liste offen ist
     if (inList) {
         html += '</ul>';
     }
@@ -318,6 +350,5 @@ function formatDescription(rawText) {
 /* --- Export & GPT Integration --- */
 
 function openGptAssistant() {
-    // Öffnet direkt den Custom GPT Link
     window.open('https://chatgpt.com/g/g-69865543f52c81919e8a84a09ae88e93-biodiversitatsberater-labiola', '_blank');
 }
