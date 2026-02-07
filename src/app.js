@@ -181,9 +181,9 @@ function evaluateQ2() {
     const count = state.selectedQ2.size;
     
     if (count > 8) {
-        showResult('q2_very_good', count);
+        showResult('q2_very_good');
     } else if (count >= 6) {
-        showResult('q2_good', count);
+        showResult('q2_good');
     } else {
         // Nicht Q2 -> Weiter zu Schritt 2
         renderPotPlants();
@@ -193,17 +193,24 @@ function evaluateQ2() {
 
 // SCHRITT 3
 function calculateManagementPotential() {
-    // Punktesystem basierend auf Agridea-Merkblatt
-    
-    // 1. Punkte durch Pflanzen (aus Schritt 2)
-    const plantScore = state.selectedPot.size; 
+    // 1. Punkte durch ALLE ausgewählten Pflanzen (Q2 + Potenzial-Arten)
+    // Jede Pflanze zählt 1 Punkt.
+    const plantScore = state.selectedQ2.size + state.selectedPot.size; 
 
-    // 2. Standortfaktoren (jeweils 2 Punkte)
+    // 2. Standortfaktoren & Zusammensetzung
     let envScore = 0;
-    if (document.getElementById('factor-neighbors').checked) envScore += 2;
-    if (document.getElementById('factor-structure').checked) envScore += 2;
+    
+    // Bestehende Checkboxen (jetzt je 1 Punkt)
+    if (document.getElementById('factor-neighbors').checked) envScore += 1;
+    if (document.getElementById('factor-structure').checked) envScore += 1;
 
-    // 3. Massnahmen (jeweils 1 Punkt als Commitment)
+    // Neue Checkbox: Unerwünschte Arten < 35% (1 Punkt)
+    if (document.getElementById('crit-weeds-low').checked) envScore += 1;
+
+    // Neue Checkbox: Massenwüchsige Kräuter < 40% (2 Punkte)
+    if (document.getElementById('crit-mass-herbs-low').checked) envScore += 2;
+
+    // 3. Massnahmen (Commitment, jeweils 1 Punkt)
     const measureIds = ['meas-hay', 'meas-cut-time', 'meas-late-use', 'meas-autumn-grazing', 'meas-early'];
     let mgmtScore = 0;
     measureIds.forEach(id => {
@@ -213,9 +220,15 @@ function calculateManagementPotential() {
     const totalScore = plantScore + envScore + mgmtScore;
     state.potScore = totalScore;
 
+    console.log("Evaluation Debug:");
+    console.log("- Plant Score:", plantScore);
+    console.log("- Environment/Criteria Score:", envScore);
+    console.log("- Management Score:", mgmtScore);
+    console.log("= Total Score:", totalScore);
+
     // Schwellenwert: 12 Punkte für erfolgreiche Aufwertung durch Bewirtschaftung
     if (totalScore >= 12) {
-        showResult('mgmt_potential', totalScore);
+        showResult('mgmt_potential');
     } else {
         switchStage('stage-seeding');
     }
@@ -236,13 +249,13 @@ function evaluateSeeding() {
     if (hasExclusion) {
         showResult('no_potential');
     } else {
-        showResult('seeding_potential', state.potScore);
+        showResult('seeding_potential');
     }
 }
 
 /* --- Ergebnis-Darstellung --- */
 
-function showResult(type, score = 0) {
+function showResult(type) {
     state.resultType = type; // Speichern für GPT Export
     switchStage('stage-result');
     
@@ -276,20 +289,13 @@ function showResult(type, score = 0) {
         descriptionHtml = '<div class="alert-box warning">Keine Massnahmen in der Datenbank gefunden.</div>';
     }
 
-    // 3. Score-Info zusammenbauen (falls relevant)
-    let scoreInfo = '';
-    if (score > 0) {
-        scoreInfo = `<p style="font-weight: bold; margin-bottom: 1rem;">Erreichter Score / Anzahl Arten: ${score}</p>`;
-    }
-
-    // 4. HTML Zusammensetzen
+    // 3. HTML Zusammensetzen (Score wird dem User nicht mehr angezeigt)
     bodyEl.innerHTML = `
         <div class="gauge-container">
             <div class="gauge-body"></div>
             <div class="gauge-needle" id="gauge-needle-el"></div>
             <div class="gauge-hub"></div>
         </div>
-        ${scoreInfo}
         <div class="generated-measures">
             ${descriptionHtml}
         </div>
