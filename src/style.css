@@ -18,6 +18,10 @@
     --g-lightgreen: #7cb342;
     --g-darkgreen: #388e3c;
 
+    /* GPT AI Brand Color */
+    --ai-color: #10a37f;
+    --ai-color-hover: #0d8a6a;
+
     --radius: 8px;
     --shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
@@ -211,9 +215,35 @@ main { max-width: 900px; margin: 0 auto; padding-bottom: 60px; }
     border-radius: var(--radius);
     cursor: pointer;
     width: 100%;
+    margin-top: 15px; /* Abstand zum GPT Button */
 }
 
 .secondary-btn:hover { background-color: #e8f5e9; }
+
+/* GPT Button Specifics */
+.gpt-btn {
+    background-color: var(--ai-color);
+    color: white;
+    border: none;
+    padding: 16px 28px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: var(--radius);
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 4px 10px rgba(16, 163, 127, 0.3);
+}
+
+.gpt-btn:hover {
+    background-color: var(--ai-color-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(16, 163, 127, 0.4);
+}
 
 .step-badge {
     text-transform: uppercase;

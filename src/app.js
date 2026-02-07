@@ -9,7 +9,8 @@ let state = {
     measures: [],
     selectedQ2: new Set(),
     selectedPot: new Set(),
-    potScore: 0
+    potScore: 0,
+    resultType: '' // Speichert das finale Ergebnis für den Export
 };
 
 document.addEventListener('DOMContentLoaded', init);
@@ -61,6 +62,9 @@ function setupEventListeners() {
 
     // Stage 4: Ansaat
     document.getElementById('btn-eval-seeding').addEventListener('click', evaluateSeeding);
+
+    // Resultat: GPT
+    document.getElementById('btn-open-gpt').addEventListener('click', openGptAssistant);
 }
 
 /* --- Navigation & UI --- */
@@ -198,6 +202,7 @@ function evaluateSeeding() {
 /* --- Ergebnis-Darstellung --- */
 
 function showResult(type, score = 0) {
+    state.resultType = type; // Speichern für GPT Export
     switchStage('stage-result');
     const titleEl = document.getElementById('result-title');
     const bodyEl = document.getElementById('result-body');
@@ -205,16 +210,6 @@ function showResult(type, score = 0) {
     let htmlContent = '';
     
     // Winkel-Logik für Tachometer:
-    // Der Halbkreis geht von -90° (Links) bis +90° (Rechts).
-    // Wir teilen 180° durch 5 Sektoren = 36° pro Sektor.
-    // Die Nadel zielt auf die Mitte des jeweiligen Sektors.
-    
-    // Sektor 1 (Rot): -90° bis -54° -> Mitte: -72°
-    // Sektor 2 (Orange): -54° bis -18° -> Mitte: -36°
-    // Sektor 3 (Gelb): -18° bis +18° -> Mitte: 0°
-    // Sektor 4 (Hellgrün): +18° bis +54° -> Mitte: +36°
-    // Sektor 5 (Dunkelgrün): +54° bis +90° -> Mitte: +72°
-    
     let angle = -90; 
     let titleText = '';
     let titleColor = '';
@@ -312,4 +307,68 @@ function showResult(type, score = 0) {
             needle.style.transform = `translateX(-50%) rotate(${angle}deg)`;
         }
     }, 50);
+}
+
+/* --- Export & GPT Integration --- */
+
+function openGptAssistant() {
+    // 1. Daten zusammenstellen
+    const q2PlantNames = state.plants
+        .filter(p => state.selectedQ2.has(p.id))
+        .map(p => p.name).join(', ');
+        
+    const potPlantNames = state.plants
+        .filter(p => state.selectedPot.has(p.id))
+        .map(p => p.name).join(', ');
+
+    // Hilfsfunktion: Checkbox Status
+    const isChecked = (id) => {
+        const el = document.getElementById(id);
+        return el && el.checked ? "JA" : "NEIN";
+    };
+
+    const promptText = `
+HALLO BIODIVERSITÄTSBERATER.
+Ich habe soeben eine Wiesen-Evaluation durchgeführt. Hier sind meine gesammelten Daten. Bitte analysiere diese und gib mir konkrete Empfehlungen für das weitere Vorgehen.
+
+--- ERGEBNISZUSAMMENFASSUNG ---
+Ergebnis-Typ: ${state.resultType}
+Kalkulierter Score (Potenzial): ${state.potScore}
+
+1. VORHANDENE FLORA
+- Q2-Zeigerpflanzen: ${q2PlantNames || "(Keine ausgewählt)"}
+- Potenzial-Arten: ${potPlantNames || "(Keine ausgewählt)"}
+
+2. STANDORTFAKTOREN
+- Sameneintrag aus Umgebung möglich: ${isChecked('factor-neighbors')}
+- Günstige Struktur (mager): ${isChecked('factor-structure')}
+
+3. MÖGLICHE MASSNAHMEN (Betriebliche Bereitschaft)
+- Bodenheubereitung: ${isChecked('meas-hay')}
+- Angepasster Schnittzeitpunkt: ${isChecked('meas-cut-time')}
+- Späte letzte Nutzung: ${isChecked('meas-late-use')}
+- Herbstweide: ${isChecked('meas-autumn-grazing')}
+- Frühschnitt/Frühbeweidung: ${isChecked('meas-early')}
+
+4. AUSSCHLUSSKRITERIEN (relevant für Ansaat)
+- Schattige Lage: ${isChecked('ex-shade')}
+- Feuchter Standort: ${isChecked('ex-wet')}
+- Zu hoher Ertrag: ${isChecked('ex-yield')}
+- Problemunkräuter vorhanden: ${isChecked('ex-weeds')}
+
+Bitte erstelle basierend darauf einen kurzen Massnahmenplan.
+`;
+
+    // 2. In Zwischenablage kopieren
+    navigator.clipboard.writeText(promptText)
+        .then(() => {
+            alert("✅ Daten kopiert!\n\nDas Chat-Fenster wird jetzt geöffnet. Füge die Daten dort einfach mit 'Ctrl+V' (oder Rechtsklick -> Einfügen) ein.");
+            // 3. Link öffnen
+            window.open('https://chatgpt.com/g/g-69865543f52c81919e8a84a09ae88e93-biodiversitatsberater-labiola', '_blank');
+        })
+        .catch(err => {
+            console.error('Clipboard failed', err);
+            alert("⚠️ Kopieren fehlgeschlagen.\nBitte die Daten manuell übertragen oder Browser-Berechtigungen prüfen.");
+            window.open('https://chatgpt.com/g/g-69865543f52c81919e8a84a09ae88e93-biodiversitatsberater-labiola', '_blank');
+        });
 }
