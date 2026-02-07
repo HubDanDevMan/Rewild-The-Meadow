@@ -403,7 +403,7 @@
         "id": "51",
         "name": "Fromental",
         "botanical_name": "Arrhenatherum elatius",
-        "image": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/20150524Arrhenatherum_elatius2.jpg/960px-20150524Arrhenatherum_elatius2.jpg",
         "category": "grass",
         "is_q2": false
     },
@@ -411,7 +411,7 @@
         "id": "52",
         "name": "Knaulgras",
         "botanical_name": "Dactylis glomerata",
-        "image": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/3/36/Dactylis_glomerata_Habitus_Valderrepisa_2012-5-31_SierraMadrona.jpg",
         "category": "grass",
         "is_q2": false
     },
@@ -419,7 +419,7 @@
         "id": "53",
         "name": "Rot-Schwingel",
         "botanical_name": "Festuca rubra",
-        "image": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/9/9a/Festuca_rubra.JPG",
         "category": "grass",
         "is_q2": false
     },
@@ -427,7 +427,7 @@
         "id": "54",
         "name": "Goldhafer",
         "botanical_name": "Trisetum flavescens",
-        "image": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/b/b1/Trisetum_flavescens_subsp._flavescens_sl6.jpg",
         "category": "grass",
         "is_q2": false
     },
@@ -435,7 +435,7 @@
         "id": "55",
         "name": "Rotklee",
         "botanical_name": "Trifolium pratense",
-        "image": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/9/9d/Trifolium_pratense_-_Keila.jpg",
         "category": "legume",
         "is_q2": false
     },
@@ -443,7 +443,7 @@
         "id": "56",
         "name": "Wicke blau/violett",
         "botanical_name": "Vicia cracca",
-        "image": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/2/2c/Aitovirna_Vicia_sepium_VI05_C_6297.JPG",
         "category": "legume",
         "is_q2": false
     },
@@ -451,7 +451,7 @@
         "id": "57",
         "name": "Grosse Bibernelle",
         "botanical_name": "Pimpinella major",
-        "image": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Pimpinella_major_ssp_rubra_eF.jpg",
         "category": "herb",
         "is_q2": false
     },
@@ -459,7 +459,7 @@
         "id": "58",
         "name": "Vergissmeinnicht",
         "botanical_name": "Myosotis spp.",
-        "image": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/b/b4/Myosotis_spec_LC0039.jpg",
         "category": "herb",
         "is_q2": false
     },
@@ -467,7 +467,7 @@
         "id": "59",
         "name": "Wiesen-Labkraut",
         "botanical_name": "Galium mollugo",
-        "image": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/1/1c/20130819Galium_mollugo1.jpg",
         "category": "herb",
         "is_q2": false
     },
@@ -475,7 +475,7 @@
         "id": "60",
         "name": "Rote Waldnelke",
         "botanical_name": "Silene dioica",
-        "image": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/7/7b/Bayrischer_Wald_9929.JPG",
         "category": "herb",
         "is_q2": false
     },
@@ -483,7 +483,7 @@
         "id": "61",
         "name": "Spitzwegerich",
         "botanical_name": "Plantago lanceolata",
-        "image": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/d/d2/Plantago_lanceolata_%28inflorescense%29.jpg",
         "category": "herb",
         "is_q2": false
     },
@@ -491,7 +491,7 @@
         "id": "62",
         "name": "Gemeine Brunelle",
         "botanical_name": "Prunella vulgaris",
-        "image": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/c/cb/Prunella_vulgaris_-_harilik_käbihein.jpg",
         "category": "herb",
         "is_q2": false
     },
@@ -499,10 +499,11 @@
         "id": "63",
         "name": "Kümmel",
         "botanical_name": "Carum carvi",
-        "image": "",
+        "image": "https://upload.wikimedia.org/wikipedia/commons/7/7d/Carum_carvi_001.JPG",
         "category": "herb",
         "is_q2": false
     }
 ]
+
 
 
