@@ -1,0 +1,9 @@
+[
+    {
+        "id": "1",
+        "name": "bla",
+        "description": "blabla",
+        "tags": [ "time" ],
+        "image": "https://..."
+    }
+]
