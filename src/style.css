@@ -49,26 +49,68 @@ main {
     border-radius: var(--radius);
     padding: 12px;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    text-align: left; /* Besser für Lesbarkeit bei Titel/Untertitel */
+    overflow: hidden; /* Damit Bilder die Ecken nicht überragen */
 }
 
+/* Neuer Wrapper für das Bild */
+.plant-image-wrapper {
+    width: 100%;
+    height: 160px; /* Fixe Höhe definiert die Einheitlichkeit des Grids */
+    background-color: #f5f5f5; /* Hellgrauer Hintergrund für Platzhalter */
+    border-radius: 4px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.plant-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Schneidet Bild zu, verzerrt nicht */
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+/* Hover-Effekt: Leichter Zoom des Bildes */
+.plant-card:hover .plant-image-wrapper img {
+    transform: scale(1.05);
+}
+
+/* Fallback-Icon, wenn kein Bild vorhanden ist */
+.placeholder-icon {
+    font-size: 2rem;
+    color: #ccc;
+    font-weight: bold;
+}
+
+/* Selektions-Status */
 .plant-card.selected {
     border-color: var(--primary);
-    background-color: #e8f5e9;
-    box-shadow: 0 4px 12px rgba(44, 94, 46, 0.15);
+    background-color: #f1f8e9;
+    box-shadow: 0 4px 12px rgba(44, 94, 46, 0.2);
 }
 
-.plant-card img {
-    width: 100%;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 4px;
-    margin-bottom: 8px;
-    background-color: #eee;
+/* Kleiner Haken, wenn selektiert */
+.plant-card.selected::after {
+    content: "✔";
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--primary);
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 24px;
+    font-size: 14px;
 }
 
 .plant-name { font-weight: 600; margin-bottom: 4px; }

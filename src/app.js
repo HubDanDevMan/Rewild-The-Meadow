@@ -1,38 +1,48 @@
-document.addEventListener('DOMContentLoaded', init);
-
-// State-Management
+// Globale State-Definition
 let state = {
-    plants: [],
+    plants: [],       // Wird aus JSON befüllt
+    measures: [],     // Optional: falls Sie measures.json auch laden
     selectedQ2: new Set(),
     selectedPot: new Set(),
     potScore: 0
 };
 
+document.addEventListener('DOMContentLoaded', init);
+
 async function init() {
     try {
-        // Simulierte Fetch-Logik (würde in Produktion auf echte JSON-Dateien zeigen)
-        // const response = await fetch('./src/plants.json');
-        // state.plants = await response.json();
-        
-        // Mock-Daten basierend auf Ihrer Beschreibung für diese Demo
-        state.plants = [
-            { id: "CMPSS", name: "Glockenblumen", botanical_name: "Campanula sp.", image: "...", is_q2: true },
-            { id: "KNASS", name: "Witwenblumen und Skabiosen", botanical_name: "Knautia sp.", image: "", is_q2: false },
-            { id: "CENSS", name: "Flockenblumen", botanical_name: "Centaurea sp.", image: "", is_q2: true },
-            { id: "ENIAN", name: "Enziane", botanical_name: "Gentiana sp.", image: "", is_q2: true },
-            // Fügen Sie hier weitere Dummy-Daten hinzu, um die Logik zu testen
-            { id: "DUMMY1", name: "Wiesen-Salbei", botanical_name: "Salvia pratensis", image: "", is_q2: true },
-            { id: "DUMMY2", name: "Margerite", botanical_name: "Leucanthemum vulgare", image: "", is_q2: true },
-            { id: "DUMMY3", name: "Kuckuckslichtnelke", botanical_name: "Lychnis flos-cuculi", image: "", is_q2: true },
-            { id: "DUMMY4", name: "Schlangen-Knöterich", botanical_name: "Bistorta officinalis", image: "", is_q2: true },
-            { id: "DUMMY5", name: "Hornklee", botanical_name: "Lotus corniculatus", image: "", is_q2: true }
-        ];
+        // Parallelisiertes Laden der Ressourcen für bessere Performance
+        // Hier gehen wir davon aus, dass index.html im Root liegt und die JSONs in ./src/
+        const [plantsResponse, measuresResponse] = await Promise.all([
+            fetch('plants.json'),
+            fetch('measures.json')
+        ]);
 
+        // HTTP-Fehlerprüfung (Fetch wirft keinen Fehler bei 404, daher manuelle Prüfung nötig)
+        if (!plantsResponse.ok) throw new Error(`HTTP error plants.json: ${plantsResponse.status}`);
+        if (!measuresResponse.ok) throw new Error(`HTTP error measures.json: ${measuresResponse.status}`);
+
+        // Parsing der JSON-Daten
+        state.plants = await plantsResponse.json();
+        state.measures = await measuresResponse.json();
+
+        console.log("Daten erfolgreich geladen:", state.plants.length, "Pflanzen.");
+
+        // Initiales Rendering
         renderQ2Plants();
         setupEventListeners();
 
     } catch (error) {
-        console.error("Initialisierungsfehler:", error);
+        console.error("Kritischer Fehler beim Laden der Applikationsdaten:", error);
+        
+        // Fallback für den User im UI anzeigen
+        document.getElementById('app').innerHTML = `
+            <div style="color: #d32f2f; padding: 20px; text-align: center;">
+                <h3>Daten konnten nicht geladen werden.</h3>
+                <p>Bitte stellen Sie sicher, dass die Dateien <code>src/plants.json</code> existieren und die Applikation über einen Webserver gestartet wurde.</p>
+                <small>Technische Details: ${error.message}</small>
+            </div>
+        `;
     }
 }
 
@@ -67,12 +77,30 @@ function renderPotPlants() {
 function createPlantCard(plant, setKey) {
     const el = document.createElement('div');
     el.className = 'plant-card';
+    
+    // Position relative für den Selektions-Haken
+    el.style.position = 'relative'; 
+
+    // Prüfung: Existiert ein Bild-Link?
+    const hasImage = plant.image && plant.image.trim() !== "";
+    
+    // HTML-Konstruktion
+    // Wir nutzen einen Error-Handler (onerror), falls der externe Link tot ist.
+    const imageHtml = hasImage 
+        ? `<img src="${plant.image}" alt="${plant.name}" loading="lazy" onerror="this.style.display='none'; this.parentNode.innerHTML='<span class=\\'placeholder-icon\\'>✿</span>'">`
+        : `<span class="placeholder-icon">✿</span>`; // Fallback-Symbol (Blume)
+
     el.innerHTML = `
-        <div class="plant-name">${plant.name}</div>
-        <div class="plant-bot">${plant.botanical_name}</div>
+        <div class="plant-image-wrapper">
+            ${imageHtml}
+        </div>
+        <div class="plant-content">
+            <div class="plant-name">${plant.name}</div>
+            <div class="plant-bot">${plant.botanical_name}</div>
+        </div>
     `;
     
-    // Toggle Selection Logic
+    // Event Listener für Klick (Toggle-Logik bleibt gleich)
     el.addEventListener('click', () => {
         if (state[setKey].has(plant.id)) {
             state[setKey].delete(plant.id);
@@ -82,6 +110,7 @@ function createPlantCard(plant, setKey) {
             el.classList.add('selected');
         }
     });
+
     return el;
 }
 
