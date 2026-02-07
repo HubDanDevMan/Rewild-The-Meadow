@@ -13,19 +13,19 @@
   },
   {
     "id": "3",
-    "name": "QI mit Aufwertungspotenzial",
+    "name": "QI mit Aufwertungspotenzial zu QII",
     "description": "Der Bestand hat das Potenzial, dass die Zeigerarten weiter zunehmen und mittelfristig die Qualitätsstufe II erreicht wird; dazu sind bestandeslenkende Massnahmen nötig.\n\nEmpfohlene Massnahmen:\n- Bewirtschaftungsvariante «flex» wählen.\n- Während 2–3 aufeinanderfolgenden Jahren eine Frühnutzung durchführen bis Ende April (Frühweide oder Silage/Eingrasen), um die Horstgräser zu schwächen.\n- Falls die Wiese zu wüchsig ist, den Zeitpunkt für die Heubereitung so wählen, dass der Bestand nicht lagert.\n- Der Heuschnitt soll zur Vollblüte der bestandesbildenden Gräser durchgeführt werden; Bodenheubereitung, damit die Samen auf der Wiese reifen und ausfallen.\n- Schnittgut von angrenzenden artenreicheren Wiesen zuführen zwecks Bodenheubereitung; über mehrere Jahre wiederholen.\n- Artenreichere und weniger üppige Stellen (Böschungen, Kuppen und Saumbereiche entlang von Gewässern oder Gehölzen) später als die restliche Wiese mähen (mosaikartige Nutzung) und so von der Versamung profitieren.\n- Für Fromentalwiesen: Herbstweide von 1.9. – 30.11. oder später Emdschnitt Ende September.\n- Für Magerwiesen: Emdschnitt Ende September.",
     "tags": ["mgmt_potential"]
   },
   {
     "id": "4",
-    "name": "QI mit Ansaatpotenzial",
+    "name": "QI mit Ansaatpotenzial zu QII",
     "description": "Der Bestand lässt sich nicht in die Qualitätsstufe II überführen. Es ist eine Neuansaat nötig. Dazu muss der Ausgangsbestand vollflächig oder streifenweise entfernt werden.\n\nAnsaat- und Pflegevarianten gemäss Merkblatt:\nhttp://www.ag.ch/de/themen/landwirtschaft-tiere/landwirtschaft/programm-labiola/merkblaetter-labiola?dc=b6e6f5f5-5173-4379-aa92-45272b1a22a1_de",
     "tags": ["seeding_potential"]
   },
   {
     "id": "5",
-    "name": "QI ohne Potenzial",
+    "name": "QI ohne weiteres Potenzial",
     "description": "Der Bestand lässt sich nicht in die Qualitätsstufe II überführen. Eine Neuansaat ist ebenfalls nicht möglich oder nicht sinnvoll. Die ökologische Qualität der Wiese kann mit Lebensraum-Aufwertungen für Kleintiere verbessert werden.",
     "tags": ["no_potential"]
   }
