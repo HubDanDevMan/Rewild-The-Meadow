@@ -1,12 +1,23 @@
 :root {
-    --primary: #2e5c31;    /* Dunkles Agrar-Grün */
+    /* Basisfarben */
+    --primary: #2e5c31;    
     --primary-light: #4a8f4d;
-    --accent: #f9a825;     /* Goldgelb für Highlights */
+    --accent: #f9a825;     
+    
+    /* UI Farben */
     --bg-color: #f8f9fa;
     --card-bg: #ffffff;
     --text-main: #2c3e50;
     --text-muted: #6c757d;
     --border-color: #dee2e6;
+    
+    /* Gauge Sektor Farben (explizit für Visualisierung) */
+    --g-red: #d32f2f;
+    --g-orange: #f57c00;
+    --g-yellow: #fbc02d;
+    --g-lightgreen: #7cb342;
+    --g-darkgreen: #388e3c;
+
     --radius: 8px;
     --shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
@@ -229,4 +240,83 @@ main { max-width: 900px; margin: 0 auto; padding-bottom: 60px; }
     border-radius: var(--radius);
     border-top: 6px solid var(--primary);
     box-shadow: var(--shadow);
+}
+
+/* --- Gauge / Tachometer Visualisierung --- */
+
+.gauge-container {
+    position: relative;
+    width: 300px;
+    height: 150px;
+    margin: 0 auto 30px auto;
+    overflow: hidden; /* Versteckt die untere Hälfte des Kreises */
+}
+
+/* * Der Gauge-Hintergrund (Bogen)
+ * Wir nutzen einen conic-gradient, der den vollen Kreis beschreibt,
+ * aber durch das overflow: hidden des Containers wird nur die obere Hälfte angezeigt.
+ * * Startpunkt: 270deg (9 Uhr Position = Links)
+ * Die Sektoren werden im Uhrzeigersinn definiert.
+ */
+.gauge-body {
+    width: 300px;
+    height: 300px; /* Voller Kreis, damit Gradient korrekt zentriert ist */
+    border-radius: 50%;
+    background: conic-gradient(
+        from 270deg,
+        var(--g-red) 0deg 36deg,        /* Sektor 1: Kein Potenzial */
+        var(--g-orange) 36deg 72deg,    /* Sektor 2: Ansaat */
+        var(--g-yellow) 72deg 108deg,   /* Sektor 3: Management */
+        var(--g-lightgreen) 108deg 144deg, /* Sektor 4: Q2 knapp */
+        var(--g-darkgreen) 144deg 180deg,  /* Sektor 5: Q2 gut */
+        transparent 180deg              /* Rest des Kreises transparent */
+    );
+    /* Umrechnung in Halbkreis-Optik */
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Maske für den inneren Bogen ("Doughnut"-Effekt) */
+.gauge-body::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px; /* Dicke des Bogens steuern */
+    height: 200px;
+    background-color: var(--card-bg);
+    border-radius: 50%;
+}
+
+.gauge-needle {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 6px;
+    height: 130px; /* Länge der Nadel */
+    background-color: #2c3e50;
+    border-radius: 4px;
+    
+    /* Drehpunkt unten in der Mitte */
+    transform-origin: bottom center; 
+    
+    /* Initialzustand: -90deg (Linksanschlag) */
+    transform: translateX(-50%) rotate(-90deg);
+    
+    transition: transform 1.2s cubic-bezier(0.35, 0, 0.25, 1);
+    z-index: 10;
+}
+
+.gauge-hub {
+    position: absolute;
+    bottom: -12px; /* Halb verdeckt */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 24px;
+    background-color: #2c3e50;
+    border-radius: 50%;
+    z-index: 11;
 }

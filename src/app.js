@@ -202,42 +202,62 @@ function showResult(type, score = 0) {
     const titleEl = document.getElementById('result-title');
     const bodyEl = document.getElementById('result-body');
     
-    let html = '';
+    let htmlContent = '';
+    
+    // Winkel-Logik für Tachometer:
+    // Der Halbkreis geht von -90° (Links) bis +90° (Rechts).
+    // Wir teilen 180° durch 5 Sektoren = 36° pro Sektor.
+    // Die Nadel zielt auf die Mitte des jeweiligen Sektors.
+    
+    // Sektor 1 (Rot): -90° bis -54° -> Mitte: -72°
+    // Sektor 2 (Orange): -54° bis -18° -> Mitte: -36°
+    // Sektor 3 (Gelb): -18° bis +18° -> Mitte: 0°
+    // Sektor 4 (Hellgrün): +18° bis +54° -> Mitte: +36°
+    // Sektor 5 (Dunkelgrün): +54° bis +90° -> Mitte: +72°
+    
+    let angle = -90; 
+    let titleText = '';
+    let titleColor = '';
 
     switch (type) {
-        case 'q2_very_good':
-            titleEl.innerText = "Qualitätsstufe II: Sehr gut erfüllt";
-            titleEl.style.color = "var(--primary)";
-            html = `
-                <p>Mit <strong>${score} Zeigerpflanzen</strong> weist Ihre Fläche eine hohe biologische Qualität auf.</p>
-                <div class="alert-box info">
-                    <strong>Empfehlung:</strong> Führen Sie die bisherige Bewirtschaftung fort. 
-                    Minimale Anpassungen genügen, um dieses hohe Niveau zu sichern.
+        case 'no_potential':
+            // Rot: Kein QII, Kein Ansaatpotenzial
+            angle = -72;
+            titleText = "Kein Aufwertungspotenzial";
+            titleColor = "#d32f2f"; // Rot
+            htmlContent = `
+                <div class="alert-box warning">
+                    <strong>Begründung:</strong>
+                    Es liegen Ausschlusskriterien vor (z.B. ungünstige Exposition, Feuchte oder Unkrautdruck).
+                    Weder eine Anpassung der Bewirtschaftung noch eine Ansaat versprechen Erfolg.
                 </div>`;
             break;
 
-        case 'q2_good':
-            titleEl.innerText = "Qualitätsstufe II: Erfüllt";
-            titleEl.style.color = "var(--primary-light)";
-            html = `
-                <p>Mit <strong>${score} Zeigerpflanzen</strong> erreichen Sie knapp die Qualitätsstufe II.</p>
+        case 'seeding_potential':
+            // Orange: Ansaatpotenzial
+            angle = -36;
+            titleText = "Ansaatpotenzial vorhanden";
+            titleColor = "#f57c00"; // Orange
+            htmlContent = `
+                <p>Die aktuelle Flora reicht nicht aus (Score: ${score}), aber der Standort erlaubt Massnahmen.</p>
                 <div class="alert-box info">
-                    <strong>Empfehlung:</strong> Um die Qualität langfristig zu sichern, sollten Sie bestehende Massnahmen optimieren 
-                    (z.B. späterer Schnittzeitpunkt oder reduzierter Düngereinsatz).
-                </div>`;
+                    <strong>Strategie: Neuansaat</strong><br>
+                    Da keine Ausschlusskriterien vorliegen, ist eine Neuansaat mit einer standortgerechten Mischung die erfolgversprechendste Option.
+                </div>
+                <p>Bitte beachten Sie die lokalen Vorgaben zur Saatbettbereitung.</p>`;
             break;
 
         case 'mgmt_potential':
-            titleEl.innerText = "Bewirtschaftungspotenzial vorhanden";
-            titleEl.style.color = "#f57f17"; // Dunkles Gelb/Orange
-            html = `
-                <p>Die Q2-Kriterien sind aktuell nicht erfüllt, aber das Potenzial ist gut.</p>
-                <p>Score: <strong>${score} Punkte</strong> (Pflanzen + Standort + Massnahmen)</p>
-                
+            // Gelb: Anbaupotenzial (Bewirtschaftung)
+            angle = 0;
+            titleText = "Bewirtschaftungspotenzial vorhanden";
+            titleColor = "#fbc02d"; // Gelb
+            htmlContent = `
+                <p>Q2 aktuell nicht erfüllt. Score: <strong>${score} Punkte</strong>.</p>
                 <div class="alert-box info">
                     <strong>Strategie: Bestandeslenkung</strong><br>
-                    Da Standortfaktoren und Ihre Bereitschaft zu Massnahmen positiv bewertet wurden, 
-                    ist eine Aufwertung ohne Neuansaat realistisch. Fokus: Gräserunterdrückung und Förderung der bestehenden Kräuter.
+                    Standortfaktoren und Ihre Bereitschaft zu Massnahmen ermöglichen eine Aufwertung ohne Neuansaat.
+                    Fokus: Gräserunterdrückung und Förderung der bestehenden Kräuter.
                 </div>
                 <ul>
                     <li>Konsequente Umsetzung der gewählten Massnahmen.</li>
@@ -245,31 +265,51 @@ function showResult(type, score = 0) {
                 </ul>`;
             break;
 
-        case 'seeding_potential':
-            titleEl.innerText = "Ansaatpotenzial vorhanden";
-            titleEl.style.color = "#f57f17";
-            html = `
-                <p>Die aktuelle Flora und Bewirtschaftung reichen für eine direkte Aufwertung nicht aus (Score: ${score}).</p>
+        case 'q2_good':
+            // Gelbgrün: Q2 knapp erreicht
+            angle = 36;
+            titleText = "Qualitätsstufe II: Knapp erfüllt";
+            titleColor = "#7cb342"; // Hellgrün
+            htmlContent = `
+                <p>Mit <strong>${score} Zeigerpflanzen</strong> erreichen Sie knapp die Qualitätsstufe II.</p>
                 <div class="alert-box info">
-                    <strong>Strategie: Neuansaat</strong><br>
-                    Da keine Ausschlusskriterien (wie Schatten, Nässe oder Problemunkräuter) vorliegen, 
-                    ist eine Neuansaat mit einer standortgerechten Mischung die erfolgversprechendste Option.
-                </div>
-                <p>Bitte beachten Sie die lokalen Vorgaben zur Saatbettbereitung.</p>`;
+                    <strong>Empfehlung:</strong> Um die Qualität langfristig zu sichern, sollten Sie bestehende Massnahmen optimieren 
+                    (z.B. späterer Schnittzeitpunkt oder reduzierter Düngereinsatz).
+                </div>`;
             break;
 
-        case 'no_potential':
-            titleEl.innerText = "Kein Aufwertungspotenzial";
-            titleEl.style.color = "#c62828"; // Rot
-            html = `
-                <p>Leider ist diese Fläche für das Erreichen der Q2-Qualität ungeeignet.</p>
-                <div class="alert-box warning">
-                    <strong>Begründung:</strong>
-                    Es liegen Ausschlusskriterien vor (z.B. ungünstige Exposition, Feuchte, zu hoher Ertrag oder Unkrautdruck).
-                    Weder eine Anpassung der Bewirtschaftung noch eine Ansaat versprechen hier Erfolg.
+        case 'q2_very_good':
+            // Grün: Q2 gut erreicht
+            angle = 72;
+            titleText = "Qualitätsstufe II: Sehr gut erfüllt";
+            titleColor = "#388e3c"; // Dunkelgrün
+            htmlContent = `
+                <p>Mit <strong>${score} Zeigerpflanzen</strong> weist Ihre Fläche eine hohe biologische Qualität auf.</p>
+                <div class="alert-box info">
+                    <strong>Empfehlung:</strong> Führen Sie die bisherige Bewirtschaftung fort. 
+                    Minimale Anpassungen genügen, um dieses hohe Niveau zu sichern.
                 </div>`;
             break;
     }
 
-    bodyEl.innerHTML = html;
+    // DOM Manipulation
+    titleEl.innerText = titleText;
+    titleEl.style.color = titleColor;
+
+    bodyEl.innerHTML = `
+        <div class="gauge-container">
+            <div class="gauge-body"></div>
+            <div class="gauge-needle" id="gauge-needle-el"></div>
+            <div class="gauge-hub"></div>
+        </div>
+        ${htmlContent}
+    `;
+
+    // Trigger für die Animation (kurze Verzögerung nötig für DOM-Reflow)
+    setTimeout(() => {
+        const needle = document.getElementById('gauge-needle-el');
+        if (needle) {
+            needle.style.transform = `translateX(-50%) rotate(${angle}deg)`;
+        }
+    }, 50);
 }
