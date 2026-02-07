@@ -5,6 +5,24 @@ Open Farming Hackdays 2026
 
 **Rewild the meadow**
 
+## Authors 
+
+Challenge Owner: 
+
+- Niklaus Trottmann
+
+Team: 
+
+- Daniel Huber
+- Robin Steiner
+- Damian Oswald
+- Lorin Semela
+- Quirina Merz
+- Alice Wieser
+- Thérèse Schmutz
+- Christoph Brunschwiler 
+
+
 ## User story
 
 **Als** Martina, 28, Landwirtin EFZ
