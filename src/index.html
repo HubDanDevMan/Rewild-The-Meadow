@@ -9,52 +9,156 @@
 <body>
 
     <header>
-        <h1>Wiesen-Evaluation BFF Q2</h1>
+        <h1>Evaluation BFF Q2 & Aufwertungspotenzial</h1>
+        <p class="subtitle">Ein Entscheidungshilfesystem für die Bestandeslenkung</p>
     </header>
 
     <main id="app">
-        <section id="stage-q2" class="active-stage">
-            <h2>Schritt 1: Q2 Zeigerpflanzen</h2>
-            <p>Bitte wählen Sie alle vorhandenen Pflanzen aus.</p>
+        <div id="loading-indicator">Lade Pflanzendaten...</div>
+
+        <section id="stage-q2" class="hidden">
+            <div class="stage-header">
+                <span class="step-badge">Schritt 1</span>
+                <h2>Erhebung Q2 Zeigerpflanzen</h2>
+            </div>
+            <p class="instruction">Bitte markieren Sie alle auf der Fläche vorkommenden Q2-Indikatorarten.</p>
+            
             <div id="q2-plant-list" class="plant-grid"></div>
-            <button id="btn-eval-q2" class="primary-btn">Auswerten</button>
+            
+            <div class="actions">
+                <button id="btn-eval-q2" class="primary-btn">Bestand auswerten</button>
+            </div>
         </section>
 
         <section id="stage-potential-plants" class="hidden">
-            <h2>Schritt 2: Potenzial-Erfassung</h2>
-            <p>Q2 wurde nicht direkt erreicht. Bitte erfassen Sie weitere Arten für die Punktzahl.</p>
+            <div class="stage-header">
+                <span class="step-badge">Schritt 2</span>
+                <h2>Erfassung Begleitflora</h2>
+            </div>
+            <div class="alert-box info">
+                Der Q2-Status wurde nicht direkt erreicht. Zur Berechnung des ökologischen Potenzials werden nun weitere Arten erfasst.
+            </div>
+            <p class="instruction">Welche der folgenden Arten kommen zusätzlich vor?</p>
+            
             <div id="pot-plant-list" class="plant-grid"></div>
-            <button id="btn-eval-pot-plants" class="primary-btn">Weiter zur Analyse</button>
+            
+            <div class="actions">
+                <button id="btn-eval-pot-plants" class="primary-btn">Weiter zur Standortanalyse</button>
+            </div>
         </section>
 
         <section id="stage-management" class="hidden">
-            <h2>Schritt 3: Bewirtschaftungspotenzial</h2>
-            <div class="card">
-                <h3>Können Sie durch gezielte Bewirtschaftung eingreifen?</h3>
-                <p>Mögliche Massnahmen: Schnittzeitpunkt anpassen, Bodenheubereitung (keine Silage), späte letzte Nutzung, Herbstweide, Frühschnitt oder Frühbeweidung.</p>
-                <div class="action-row">
-                    <button id="btn-mgmt-yes" class="secondary-btn">Ja, Potenzial vorhanden</button>
-                    <button id="btn-mgmt-no" class="secondary-btn">Nein, kein Potenzial</button>
+            <div class="stage-header">
+                <span class="step-badge">Schritt 3</span>
+                <h2>Analyse Bewirtschaftungspotenzial</h2>
+            </div>
+            <p>Bitte beantworten Sie die folgenden Fragen, um zu prüfen, ob der Bestand durch lenkende Massnahmen aufgewertet werden kann.</p>
+            
+            <div class="assessment-card">
+                <h3>A. Standort & Umgebung</h3>
+                <div class="checklist">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="factor-neighbors">
+                        <span class="checkmark"></span>
+                        <div class="label-text">
+                            <strong>Sameneintrag möglich</strong>
+                            <span class="desc">Angrenzend befinden sich artenreiche Wiesen/Säume (Distanz < 20m).</span>
+                        </div>
+                    </label>
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="factor-structure">
+                        <span class="checkmark"></span>
+                        <div class="label-text">
+                            <strong>Günstige Bestandesstruktur</strong>
+                            <span class="desc">Kein "Lagern" des Bestandes in den letzten zwei Jahren (Nährstoffarmut).</span>
+                        </div>
+                    </label>
                 </div>
+
+                <h3>B. Lenkende Massnahmen</h3>
+                <p class="sub-instruction">Welche Massnahmen können Sie betrieblich umsetzen?</p>
+                <div class="checklist">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="meas-hay">
+                        <span class="checkmark"></span>
+                        <div class="label-text"><strong>Bodenheubereitung</strong> (Verzicht auf Silage, Aussamen ermöglichen)</div>
+                    </label>
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="meas-cut-time">
+                        <span class="checkmark"></span>
+                        <div class="label-text"><strong>Angepasster Schnittzeitpunkt</strong> (Vollblüte der Gräser / ÖQV-Vorgaben)</div>
+                    </label>
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="meas-late-use">
+                        <span class="checkmark"></span>
+                        <div class="label-text"><strong>Späte letzte Nutzung</strong> (Bestand geht kurz in den Winter)</div>
+                    </label>
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="meas-autumn-grazing">
+                        <span class="checkmark"></span>
+                        <div class="label-text"><strong>Herbstweide</strong> (Zur Bestandeslenkung)</div>
+                    </label>
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="meas-early">
+                        <span class="checkmark"></span>
+                        <div class="label-text"><strong>Frühschnitt / Frühbeweidung</strong> (Gräserunterdrückung im Frühjahr)</div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button id="btn-calc-potential" class="primary-btn">Potenzial berechnen</button>
             </div>
         </section>
 
         <section id="stage-seeding" class="hidden">
-            <h2>Schritt 4: Ansaatpotenzial</h2>
-            <p>Bitte haken Sie alle zutreffenden Ausschlusskriterien an:</p>
-            <div class="checklist">
-                <label><input type="checkbox" id="ex-shade"> Schattige Lage (Exposition)</label>
-                <label><input type="checkbox" id="ex-wet"> Feuchter Standort</label>
-                <label><input type="checkbox" id="ex-yield"> Ertrag > 80 dt TS/Jahr</label>
-                <label><input type="checkbox" id="ex-weeds"> Vorkommen von Blacken oder Ackerkratzdisteln</label>
+            <div class="stage-header">
+                <span class="step-badge">Schritt 4</span>
+                <h2>Analyse Ansaatpotenzial</h2>
             </div>
-            <button id="btn-eval-seeding" class="primary-btn">Ansaat prüfen</button>
+            <div class="alert-box warning">
+                Das Bewirtschaftungspotenzial ist zu gering. Es wird nun geprüft, ob eine Neuansaat möglich ist.
+            </div>
+            <p>Liegen folgende Ausschlusskriterien vor?</p>
+            
+            <div class="assessment-card">
+                <div class="checklist">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="ex-shade">
+                        <span class="checkmark"></span>
+                        <div class="label-text"><strong>Schattige Lage</strong> (Exposition ungünstig)</div>
+                    </label>
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="ex-wet">
+                        <span class="checkmark"></span>
+                        <div class="label-text"><strong>Feuchter Standort</strong> (Staunässe etc.)</div>
+                    </label>
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="ex-yield">
+                        <span class="checkmark"></span>
+                        <div class="label-text"><strong>Hoher Ertrag</strong> (> 80 dt TS/Jahr)</div>
+                    </label>
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="ex-weeds">
+                        <span class="checkmark"></span>
+                        <div class="label-text"><strong>Problemunkräuter</strong> (Vorkommen von Blacken oder Ackerkratzdisteln)</div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button id="btn-eval-seeding" class="primary-btn">Ansaat prüfen</button>
+            </div>
         </section>
 
         <section id="stage-result" class="hidden">
-            <h2 id="result-title"></h2>
-            <div id="result-body"></div>
-            <button onclick="location.reload()" class="text-btn">Neu starten</button>
+            <div class="result-card">
+                <h2 id="result-title">Ergebnis</h2>
+                <div id="result-body"></div>
+            </div>
+            <div class="actions">
+                <button onclick="location.reload()" class="secondary-btn">Neue Evaluation starten</button>
+            </div>
         </section>
     </main>
 
