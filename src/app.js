@@ -204,109 +204,115 @@ function evaluateSeeding() {
 function showResult(type, score = 0) {
     state.resultType = type; // Speichern für GPT Export
     switchStage('stage-result');
+    
     const titleEl = document.getElementById('result-title');
     const bodyEl = document.getElementById('result-body');
     
-    let htmlContent = '';
+    // 1. Visuelle Konfiguration (Gauge & Farbe)
+    const visualConfig = {
+        'no_potential':    { angle: -72, color: "#d32f2f" }, // Rot
+        'seeding_potential': { angle: -36, color: "#f57c00" }, // Orange
+        'mgmt_potential':  { angle: 0,   color: "#fbc02d" }, // Gelb
+        'q2_good':         { angle: 36,  color: "#7cb342" }, // Hellgrün
+        'q2_very_good':    { angle: 72,  color: "#388e3c" }  // Dunkelgrün
+    };
+
+    // Fallback, falls Typ unbekannt
+    const config = visualConfig[type] || { angle: -90, color: "#333" };
+
+    // 2. Inhalte aus JSON laden
+    const measureData = state.measures.find(m => m.tags.includes(type));
     
-    // Winkel-Logik für Tachometer:
-    let angle = -90; 
-    let titleText = '';
-    let titleColor = '';
+    // Titel setzen
+    titleEl.innerText = measureData ? measureData.name : "Unbekanntes Ergebnis";
+    titleEl.style.color = config.color;
 
-    switch (type) {
-        case 'no_potential':
-            // Rot: Kein QII, Kein Ansaatpotenzial
-            angle = -72;
-            titleText = "Kein Aufwertungspotenzial";
-            titleColor = "#d32f2f"; // Rot
-            htmlContent = `
-                <div class="alert-box warning">
-                    <strong>Begründung:</strong>
-                    Es liegen Ausschlusskriterien vor (z.B. ungünstige Exposition, Feuchte oder Unkrautdruck).
-                    Weder eine Anpassung der Bewirtschaftung noch eine Ansaat versprechen Erfolg.
-                </div>`;
-            break;
-
-        case 'seeding_potential':
-            // Orange: Ansaatpotenzial
-            angle = -36;
-            titleText = "Ansaatpotenzial vorhanden";
-            titleColor = "#f57c00"; // Orange
-            htmlContent = `
-                <p>Die aktuelle Flora reicht nicht aus (Score: ${score}), aber der Standort erlaubt Massnahmen.</p>
-                <div class="alert-box info">
-                    <strong>Strategie: Neuansaat</strong><br>
-                    Da keine Ausschlusskriterien vorliegen, ist eine Neuansaat mit einer standortgerechten Mischung die erfolgversprechendste Option.
-                </div>
-                <p>Bitte beachten Sie die lokalen Vorgaben zur Saatbettbereitung.</p>`;
-            break;
-
-        case 'mgmt_potential':
-            // Gelb: Anbaupotenzial (Bewirtschaftung)
-            angle = 0;
-            titleText = "Bewirtschaftungspotenzial vorhanden";
-            titleColor = "#fbc02d"; // Gelb
-            htmlContent = `
-                <p>Q2 aktuell nicht erfüllt. Score: <strong>${score} Punkte</strong>.</p>
-                <div class="alert-box info">
-                    <strong>Strategie: Bestandeslenkung</strong><br>
-                    Standortfaktoren und Ihre Bereitschaft zu Massnahmen ermöglichen eine Aufwertung ohne Neuansaat.
-                    Fokus: Gräserunterdrückung und Förderung der bestehenden Kräuter.
-                </div>
-                <ul>
-                    <li>Konsequente Umsetzung der gewählten Massnahmen.</li>
-                    <li>Geduld: Entwicklung kann 3-5 Jahre dauern.</li>
-                </ul>`;
-            break;
-
-        case 'q2_good':
-            // Gelbgrün: Q2 knapp erreicht
-            angle = 36;
-            titleText = "Qualitätsstufe II: Knapp erfüllt";
-            titleColor = "#7cb342"; // Hellgrün
-            htmlContent = `
-                <p>Mit <strong>${score} Zeigerpflanzen</strong> erreichen Sie knapp die Qualitätsstufe II.</p>
-                <div class="alert-box info">
-                    <strong>Empfehlung:</strong> Um die Qualität langfristig zu sichern, sollten Sie bestehende Massnahmen optimieren 
-                    (z.B. späterer Schnittzeitpunkt oder reduzierter Düngereinsatz).
-                </div>`;
-            break;
-
-        case 'q2_very_good':
-            // Grün: Q2 gut erreicht
-            angle = 72;
-            titleText = "Qualitätsstufe II: Sehr gut erfüllt";
-            titleColor = "#388e3c"; // Dunkelgrün
-            htmlContent = `
-                <p>Mit <strong>${score} Zeigerpflanzen</strong> weist Ihre Fläche eine hohe biologische Qualität auf.</p>
-                <div class="alert-box info">
-                    <strong>Empfehlung:</strong> Führen Sie die bisherige Bewirtschaftung fort. 
-                    Minimale Anpassungen genügen, um dieses hohe Niveau zu sichern.
-                </div>`;
-            break;
+    // Text formatieren (Markdown-ähnliche Listen zu HTML)
+    let descriptionHtml = '';
+    if (measureData) {
+        descriptionHtml = formatDescription(measureData.description);
+    } else {
+        descriptionHtml = '<div class="alert-box warning">Keine Massnahmen in der Datenbank gefunden.</div>';
     }
 
-    // DOM Manipulation
-    titleEl.innerText = titleText;
-    titleEl.style.color = titleColor;
+    // 3. Score-Info zusammenbauen (falls relevant)
+    let scoreInfo = '';
+    if (score > 0) {
+        scoreInfo = `<p style="font-weight: bold; margin-bottom: 1rem;">Erreichter Score / Anzahl Arten: ${score}</p>`;
+    }
 
+    // 4. HTML Zusammensetzen
     bodyEl.innerHTML = `
         <div class="gauge-container">
             <div class="gauge-body"></div>
             <div class="gauge-needle" id="gauge-needle-el"></div>
             <div class="gauge-hub"></div>
         </div>
-        ${htmlContent}
+        ${scoreInfo}
+        <div class="generated-measures">
+            ${descriptionHtml}
+        </div>
     `;
 
     // Trigger für die Animation (kurze Verzögerung nötig für DOM-Reflow)
     setTimeout(() => {
         const needle = document.getElementById('gauge-needle-el');
         if (needle) {
-            needle.style.transform = `translateX(-50%) rotate(${angle}deg)`;
+            needle.style.transform = `translateX(-50%) rotate(${config.angle}deg)`;
         }
     }, 50);
+}
+
+/**
+ * Wandelt den Text aus dem JSON in HTML um.
+ * Erwartet: 
+ * - Zeilenumbrüche für Absätze
+ * - Zeilen, die mit "- " beginnen für Listenpunkte
+ * - URLs (http...) werden verlinkt
+ */
+function formatDescription(rawText) {
+    if (!rawText) return '';
+
+    const lines = rawText.split('\n');
+    let html = '';
+    let inList = false;
+
+    lines.forEach(line => {
+        let trimmed = line.trim();
+        
+        // Einfache URL-Erkennung und Umwandlung in Link
+        trimmed = trimmed.replace(
+            /(https?:\/\/[^\s]+)/g, 
+            '<a href="$1" target="_blank" rel="noopener noreferrer">Link öffnen</a>'
+        );
+
+        if (trimmed.startsWith('-')) {
+            // Listen-Start oder Fortsetzung
+            if (!inList) {
+                html += '<ul>';
+                inList = true;
+            }
+            // Entferne das "-" am Anfang
+            html += `<li>${trimmed.substring(1).trim()}</li>`;
+        } else {
+            // Falls wir in einer Liste waren, diese beenden
+            if (inList) {
+                html += '</ul>';
+                inList = false;
+            }
+            // Leere Zeilen ignorieren oder als Abstandhalter nutzen
+            if (trimmed.length > 0) {
+                html += `<p>${trimmed}</p>`;
+            }
+        }
+    });
+
+    // Falls am Ende noch eine Liste offen ist
+    if (inList) {
+        html += '</ul>';
+    }
+
+    return html;
 }
 
 /* --- Export & GPT Integration --- */
