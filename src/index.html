@@ -21,13 +21,15 @@
                 <span class="step-badge">Schritt 1</span>
                 <h2>Erhebung Q2 Zeigerpflanzen</h2>
             </div>
-            <p class="instruction">Bitte markieren Sie alle auf der Fläche vorkommenden Q2-Indikatorarten.</p>
+            <p class="instruction">1. Stecken Sie auf der Wiese eine Test-Kreisfläche von 6 Meter Durchmesser ab.<br>
+                Die Testfläche muss repräsentativ für den Bestand sein. Wenn der Bestand unterschiedlich ist, unterteilen Sie die Wiese in Teilflächen und beurteilen Sie diese separat. <br><br>
+                2. Wählen Sie unten alle Arten aus, die Sie innerhalb der Test-Kreisfläche finden.</p>
             
             <div id="q2-plant-list" class="plant-grid"></div>
             
             <div class="actions">
                 <button id="btn-eval-q2" class="primary-btn">Bestand auswerten</button>
-            </div>
+                </div>
         </section>
 
         <section id="stage-potential-plants" class="hidden">
@@ -44,6 +46,7 @@
             
             <div class="actions">
                 <button id="btn-eval-pot-plants" class="primary-btn">Weiter zur Standortanalyse</button>
+                <button class="secondary-btn back-btn">Zurück</button>
             </div>
         </section>
 
@@ -108,6 +111,7 @@
 
             <div class="actions">
                 <button id="btn-calc-potential" class="primary-btn">Potenzial berechnen</button>
+                <button class="secondary-btn back-btn">Zurück</button>
             </div>
         </section>
 
@@ -148,6 +152,7 @@
 
             <div class="actions">
                 <button id="btn-eval-seeding" class="primary-btn">Ansaat prüfen</button>
+                <button class="secondary-btn back-btn">Zurück</button>
             </div>
         </section>
 
@@ -159,10 +164,11 @@
             
             <div class="actions">
                 <button id="btn-open-gpt" class="gpt-btn">
-                    Zusätzliche Massnahmen mit dem KI-Biodiversitäts-Berater besprechen
+                    Zusätzliche Massnahmen mit dem KI-Biodiversitätsberater besprechen
                 </button>
                 
-                <button onclick="location.reload()" class="secondary-btn">Neue Evaluation starten</button>
+                <button class="secondary-btn back-btn">Zurück zur Eingabe</button>
+                <button onclick="location.reload()" class="secondary-btn" style="margin-top: 5px; font-size: 0.9rem; border: none;">Neue Evaluation starten</button>
             </div>
         </section>
     </main>
