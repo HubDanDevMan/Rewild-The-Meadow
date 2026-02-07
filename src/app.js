@@ -327,10 +327,37 @@ function openGptAssistant() {
         .filter(p => state.selectedPot.has(p.id))
         .map(p => p.name).join(', ');
 
-    // Hilfsfunktion: Checkbox Status
-    const isChecked = (id) => {
+    // Hilfsfunktion: Ermittelt Status basierend auf Relevanz des Schritts
+    const getFieldStatus = (id, stepCategory) => {
         const el = document.getElementById(id);
-        return el && el.checked ? "JA" : "NEIN";
+        if (!el) return "FEHLER (ID fehlt)";
+
+        // Logik: Wurde dieser Schritt überhaupt erreicht?
+        const isQ2Reached = (state.resultType === 'q2_very_good' || state.resultType === 'q2_good');
+        const isMgmtReached = (state.resultType === 'mgmt_potential'); // Endet hier, wenn erfolgreich
+        
+        // Fall 1: Q2 wurde direkt erreicht -> Alle Management/Ansaat Fragen sind irrelevant
+        if (isQ2Reached) {
+            return "NICHT ABGEFRAGT (Q2 direkt erreicht)";
+        }
+
+        // Fall 2: Wir sind im Management-Bereich (Fragen zu Standort/Massnahmen)
+        if (stepCategory === 'mgmt') {
+            // Wenn Q2 nicht erreicht wurde, sind diese Fragen immer relevant (wurden angezeigt)
+            return el.checked ? "JA" : "NEIN";
+        }
+
+        // Fall 3: Wir sind im Ansaat-Bereich (Ausschlusskriterien)
+        if (stepCategory === 'seed') {
+            // Wenn Management-Potenzial bereits ausgereicht hat, wurde Ansaat-Check übersprungen
+            if (isMgmtReached) {
+                return "NICHT ABGEFRAGT (Management-Potenzial ausreichend)";
+            }
+            // Ansonsten (seeding_potential oder no_potential) wurde der Screen angezeigt
+            return el.checked ? "JA" : "NEIN";
+        }
+
+        return "UNBEKANNT";
     };
 
     const promptText = `
@@ -345,22 +372,22 @@ Kalkulierter Score (Potenzial): ${state.potScore}
 - Q2-Zeigerpflanzen: ${q2PlantNames || "(Keine ausgewählt)"}
 - Potenzial-Arten: ${potPlantNames || "(Keine ausgewählt)"}
 
-2. STANDORTFAKTOREN
-- Sameneintrag aus Umgebung möglich: ${isChecked('factor-neighbors')}
-- Günstige Struktur (mager): ${isChecked('factor-structure')}
+2. STANDORTFAKTOREN (Potenzialanalyse)
+- Sameneintrag aus Umgebung möglich: ${getFieldStatus('factor-neighbors', 'mgmt')}
+- Günstige Struktur (mager): ${getFieldStatus('factor-structure', 'mgmt')}
 
 3. MÖGLICHE MASSNAHMEN (Betriebliche Bereitschaft)
-- Bodenheubereitung: ${isChecked('meas-hay')}
-- Angepasster Schnittzeitpunkt: ${isChecked('meas-cut-time')}
-- Späte letzte Nutzung: ${isChecked('meas-late-use')}
-- Herbstweide: ${isChecked('meas-autumn-grazing')}
-- Frühschnitt/Frühbeweidung: ${isChecked('meas-early')}
+- Bodenheubereitung: ${getFieldStatus('meas-hay', 'mgmt')}
+- Angepasster Schnittzeitpunkt: ${getFieldStatus('meas-cut-time', 'mgmt')}
+- Späte letzte Nutzung: ${getFieldStatus('meas-late-use', 'mgmt')}
+- Herbstweide: ${getFieldStatus('meas-autumn-grazing', 'mgmt')}
+- Frühschnitt/Frühbeweidung: ${getFieldStatus('meas-early', 'mgmt')}
 
 4. AUSSCHLUSSKRITERIEN (relevant für Ansaat)
-- Schattige Lage: ${isChecked('ex-shade')}
-- Feuchter Standort: ${isChecked('ex-wet')}
-- Zu hoher Ertrag: ${isChecked('ex-yield')}
-- Problemunkräuter vorhanden: ${isChecked('ex-weeds')}
+- Schattige Lage: ${getFieldStatus('ex-shade', 'seed')}
+- Feuchter Standort: ${getFieldStatus('ex-wet', 'seed')}
+- Zu hoher Ertrag: ${getFieldStatus('ex-yield', 'seed')}
+- Problemunkräuter vorhanden: ${getFieldStatus('ex-weeds', 'seed')}
 
 Bitte erstelle basierend darauf einen kurzen Massnahmenplan.
 `;
